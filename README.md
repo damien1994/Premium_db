@@ -9,3 +9,11 @@ By creating a python class with 3 methods (download_data, process_data, save_dat
 
 -[Sqlite tutorial](https://www.sqlitetutorial.net/sqlite-python/creating-database/)
 
+## TO DO
+- add logs
+- add lint and hint
+- add unit test for function
+- add try excepts blocs
+- add docker
+- add github actions
+- add metabase for data exposition
