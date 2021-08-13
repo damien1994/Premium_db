@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import numpy as np
 import pandas as pd
@@ -8,13 +9,20 @@ from etl.models import DB
 
 class PerformETL:
 
-    def __init__(self, path_db, db_name):
+    def __init__(self, path_db, table_name):
         self.path_db = path_db
-        self.db_name = db_name
+        self.table_name = table_name
+
+    def perform_etl(self):
+        dataframe = self.extract()
+        df_transformed = self.transform(dataframe)
+        del dataframe
+        self.load(df_transformed)
 
     def extract(self):
-        query = f'SELECT * FROM {self.db_name}'
-        connexion = sqlite3.connect(self.path_db)
+        full_path = os.path.join(self.path_db)
+        query = f'SELECT * FROM {self.table_name}'
+        connexion = sqlite3.connect(full_path)
         return pd.read_sql_query(query, connexion, parse_dates=DATES_COLS)
 
     def transform(self, df):
@@ -26,9 +34,11 @@ class PerformETL:
         )
         return result.reset_index().drop('transaction_class', axis=1)
 
-    def load(self, data):
-        output_db = DB()
-        data.to_sql(f'{self.db_name}_transformed', output_db)
+    @staticmethod
+    def load(data):
+        #error : ValueError
+        output_db = DB(f'db/db_transformed.db')
+        data.to_sql('premium_payments_transformed', output_db.connexion, if_exists='replace', index=False)
 
     @staticmethod
     def _group_transaction(df, group_cols, end_date_col, start_date_col, freq):
