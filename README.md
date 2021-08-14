@@ -5,15 +5,17 @@ A sqlite database which contains premium payments. Each row corresponds to a mon
 By creating a python class with 3 methods (download_data, process_data, save_data), try to create a new database where data structure allows to find easily churn on products or new subscribers
 
 ## References
--[Github repos](https://github.com/iamaziz/etl/blob/master/pipeline.py)
-
--[Sqlite tutorial](https://www.sqlitetutorial.net/sqlite-python/creating-database/)
+- [Github repos](https://github.com/iamaziz/etl/blob/master/pipeline.py)
+- [Sqlite tutorial](https://www.sqlitetutorial.net/sqlite-python/creating-database/)
 
 ## TO DO
+- ajout d'une étape de sort sur start ou end_date après le groupby sur member_id et type
+- add parser
 - add logs
 - add lint and hint
 - add unit test for function
 - add try excepts blocs
+- add to try microservices like GUI or API and manage them with docker compose
 - add docker
 - add github actions
 - add metabase for data exposition
