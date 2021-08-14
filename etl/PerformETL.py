@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from etl.base_logger import logging
-from etl.config import DATES_COLS
+from etl.config import DATES_COLS, CURRENT_DIR
 from etl.models import DB
 
 
@@ -59,7 +59,8 @@ class PerformETL:
     @staticmethod
     def load(data: pd.DataFrame):
         try:
-            output_db = DB(f'db/db_transformed.db')
+            full_path = os.path.join(CURRENT_DIR, 'db/db_transformed.sqlite3')
+            output_db = DB(full_path)
             data.to_sql('premium_payments_transformed', output_db.connexion, if_exists='replace', index=False)
         except ValueError as err:
             logging.info(f'ERROR - Data load has failed: {err}')
