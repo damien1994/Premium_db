@@ -41,35 +41,78 @@ class PerformETL:
         except ValueError as err:
             logging.info(f'ERROR - ETL pipeline has failed : {err}')
 
-    def extract(self):
-        full_path = os.path.join(self.path_db)
-        query = f'SELECT * FROM {self.table_name}'
-        connexion = sqlite3.connect(full_path)
-        return pd.read_sql_query(query, connexion, parse_dates=DATES_COLS)
+    def extract(self) -> pd.DataFrame:
+        """
+        Extract data from sqlite database
+        :return: a pandas dataframe
+        """
+        try:
+            full_path = os.path.join(self.path_db)
+            query = f'SELECT * FROM {self.table_name}'
+            connexion = sqlite3.connect(full_path)
+            return pd.read_sql_query(query, connexion, parse_dates=DATES_COLS)
+        except (ValueError, AssertionError) as err:
+            logging.info(f'ERROR - during the extract step : {err}')
 
-    def transform(self, df: pd.DataFrame):
-        df['transaction_class'] = self._group_transaction(df, ['member_id', 'type'], 'date_end', 'date_start', 3)
-        result = df.groupby(['member_id', 'type', 'transaction_class']).agg({
-            'date_start': min,
-            'date_end': max
-        }
-        )
-        return result.reset_index().drop('transaction_class', axis=1)
+    def transform(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Apply transformations to pandas dataframe input
+        :param df: a pandas DataFrame
+        :return: a pandas DataFrame transformed
+        """
+        try:
+            df['transaction_class'] = \
+                self._group_transaction(df, ['member_id', 'type'],
+                                        'date_end', 'date_start', 3)
+            logging.info('SUCCESS - during transformation step - '
+                         'transaction grouping has succeeded')
+            result = df.groupby(['member_id', 'type', 'transaction_class']).agg({
+                'date_start': min,
+                'date_end': max
+            }
+            )
+            return result.reset_index().drop('transaction_class', axis=1)
+        except ValueError as err:
+            logging.info(f'ERROR - during the transform step : {err}')
 
     @staticmethod
     def load(data: pd.DataFrame):
+        """
+        Get pandas dataframe transformed and store result into sqlite db
+        :param data: a pandas dataframe
+        :return: a sqlite database
+        """
         try:
             full_path = os.path.join(CURRENT_DIR, 'db/db_transformed.sqlite3')
             output_db = DB(full_path)
-            data.to_sql('premium_payments_transformed', output_db.connexion, if_exists='replace', index=False)
+            data.to_sql('premium_payments_transformed', output_db.connexion,
+                        if_exists='replace', index=False)
         except ValueError as err:
             logging.info(f'ERROR - Data load has failed: {err}')
 
     @staticmethod
-    def _group_transaction(df, group_cols, end_date_col, start_date_col, freq):
-        df[f'{end_date_col}_lag'] = df.groupby(group_cols)[end_date_col].shift(1)
-        return np.where(
-            df[start_date_col] + pd.Timedelta(freq, unit='D') < df[f'{end_date_col}_lag'],
-            'other_transaction',
-            'same_transaction'
-        )
+    def _group_transaction(df: pd.DataFrame,
+                           group_cols: list,
+                           end_date_col: str,
+                           start_date_col: str,
+                           freq: int) -> np.ndarray:
+        """
+        Python function to define if, for a client and a subscription type,
+        the client is paying for the same subscription or not
+        :param df: a pandas dataframe
+        :param group_cols: list of cols to groupby
+        :param end_date_col: end date of monthly subscription
+        :param start_date_col: start date of monthly subscription
+        :param freq: business rule for defining if it's the same subscription or not
+        :return: a pandas series
+        """
+        try:
+            df[f'{end_date_col}_lag'] = df.groupby(group_cols)[end_date_col].shift(1)
+            return np.where(
+                df[start_date_col] + pd.Timedelta(freq, unit='D') < df[f'{end_date_col}_lag'],
+                'other_transaction',
+                'same_transaction'
+            )
+        except ValueError as err:
+            logging.info(f'ERROR - during transform step '
+                         f'- grouping transaction substep : {err}')
