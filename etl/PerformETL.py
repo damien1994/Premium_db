@@ -66,6 +66,7 @@ class PerformETL:
                                         'date_end', 'date_start', 3)
             logging.info('SUCCESS - during transformation step - '
                          'transaction grouping has succeeded')
+            #TO DO : add percentage of same / other transaction in logging
             result = df.groupby(['member_id', 'type', 'transaction_class']).agg({
                 'date_start': min,
                 'date_end': max
@@ -109,7 +110,7 @@ class PerformETL:
         try:
             df[f'{end_date_col}_lag'] = df.groupby(group_cols)[end_date_col].shift(1)
             return np.where(
-                df[start_date_col] + pd.Timedelta(freq, unit='D') < df[f'{end_date_col}_lag'],
+                df[f'{end_date_col}_lag'] + pd.Timedelta(freq, unit='D') < df[start_date_col],
                 'other_transaction',
                 'same_transaction'
             )

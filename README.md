@@ -10,11 +10,9 @@ By creating a python class with 3 methods (download_data, process_data, save_dat
 
 ## TO DO
 - ajout d'une étape de sort sur start ou end_date après le groupby sur member_id et type
-- add parser
 - add logs
 - add lint and hint
 - add unit test for function
-- add try excepts blocs
 - add to try microservices like GUI or API and manage them with docker compose
 - add docker
 - add github actions
