@@ -1,3 +1,6 @@
+INPUT_DB='db.db'
+INPUT_TABLE='premium_payments'
+
 clean:
 	rm -Rf *.egg-info
 	rm -Rf build
@@ -14,6 +17,8 @@ install: build
 
 run: build
 	python -m etl.main
+	#--input_db $(INPUT_DB) \
+	#--input_table $(INPUT_TABLE)
 
 linter:
 	pylint etl --fail-under=7

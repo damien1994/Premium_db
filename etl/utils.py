@@ -15,12 +15,14 @@ def create_parser():
     parser.add_argument(
         '--input_db',
         help='sqlite db to connect',
-        required=True
+        required=False,
+        default='db.db'
     )
     parser.add_argument(
         '--input_table',
         help='table to process',
-        required=True
+        required=False,
+        default='premium_payments'
     )
     return parser
 
