@@ -108,9 +108,11 @@ class PerformETL:
         :return: a pandas series
         """
         try:
-            df[f'{end_date_col}_lag'] = df.groupby(group_cols)[end_date_col].shift(1)
+            df_sorted = df.sort_values(by=group_cols+[start_date_col])
+            del df
+            df_sorted[f'{end_date_col}_lag'] = df_sorted.groupby(group_cols)[end_date_col].shift(1)
             return np.where(
-                df[f'{end_date_col}_lag'] + pd.Timedelta(freq, unit='D') < df[start_date_col],
+                df_sorted[f'{end_date_col}_lag'] + pd.Timedelta(freq, unit='D') < df_sorted[start_date_col],
                 'other_transaction',
                 'same_transaction'
             )
