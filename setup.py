@@ -6,7 +6,7 @@ date : 13/08/2021
 from setuptools import setup
 
 setup(
-    name='transformed_db',
+    name='premium_clients',
     author='Damien Michelle',
     author_email='damienmichelle1994@hotmail.com',
     version='1.0',
