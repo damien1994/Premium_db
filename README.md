@@ -9,10 +9,11 @@ By creating a python class with 3 methods (download_data, process_data, save_dat
 - [Sqlite tutorial](https://www.sqlitetutorial.net/sqlite-python/creating-database/)
 
 ## TO DO
+- improve dependencies by declaring only necessary repos
 - add logs
 - add lint and hint
 - add unit test for function (ongoing)
 - add to try microservices like GUI or API and manage them with docker compose
-- add docker
+- add docker (ongoing)
 - add github actions
 - add metabase for data exposition

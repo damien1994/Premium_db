@@ -5,9 +5,9 @@ date: 13/08/2021
 """
 import pytest
 import pandas as pd
-from pandas._testing import assert_frame_equal
 
 from etl.PerformETL import PerformETL
+# TO DO : test extract and load steps
 
 
 @pytest.fixture
