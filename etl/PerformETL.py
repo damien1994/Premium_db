@@ -56,7 +56,7 @@ class PerformETL:
 
     def transform(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        Apply transformations to pandas dataframe input
+        Apply transformations to pandas dataframe output
         :param df: a pandas DataFrame
         :return: a pandas DataFrame transformed
         """
@@ -84,7 +84,7 @@ class PerformETL:
         :return: a sqlite database
         """
         try:
-            full_path = os.path.join(CURRENT_DIR, 'db/db_transformed.sqlite3')
+            full_path = os.path.join(CURRENT_DIR, 'db/output/db_test_container.sqlite3')
             output_db = DB(full_path)
             data.to_sql('premium_payments_transformed', output_db.connexion,
                         if_exists='replace', index=False)

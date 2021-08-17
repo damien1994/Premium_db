@@ -23,5 +23,8 @@ run: build
 linter:
 	pylint etl --fail-under=7
 
+launch_etl_process:
+	docker run -v $(PWD)/elt/db:/app/etl/db
+
 launch_metabase:
-	docker run -v $(PWD):/metabase -d -p 3000:3000 --name metabase metabase/metabase
+	docker run -v $(PWD)/etl/db:/metabase -d -p 3000:3000 --name metabase metabase/metabase

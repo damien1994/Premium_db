@@ -19,4 +19,4 @@ COPY Makefile ./
 RUN make install
 
 # run script
-RUN make run
+#CMD make run

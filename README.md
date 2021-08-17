@@ -9,7 +9,9 @@ By creating a python class with 3 methods (download_data, process_data, save_dat
 - [Sqlite tutorial](https://www.sqlitetutorial.net/sqlite-python/creating-database/)
 
 ## TO DO
-- improve dependencies by declaring only necessary repos
+- improve dependencies by declaring only necessary repos (done)
+- change make run in dockerfile for etl process (prevents arguments cli from being taken into account)
+- deals with volume for etl sqlite container
 - add logs
 - add lint and hint
 - add unit test for function (ongoing)
