@@ -15,13 +15,13 @@ COPY setup.py ./
 COPY etl_premium_clients/ ./etl_premium_clients
 COPY Makefile ./
 
-#VOLUME ./data:/app/etl_premium_clients/db/output
+
 
 # install dependencies
 RUN make install
 
 # run script
-ENTRYPOINT ["etl_premium_clients"]
+#ENTRYPOINT ["etl_premium_clients"]
 CMD [ "python", "-m" , "etl_premium_clients.main"]
 
 #CMD ["etl_premium_clients", "(input_db)", "(input_table)", "(custom_path)", "(output_name_db)"]
