@@ -24,6 +24,19 @@ def create_parser():
         required=False,
         default='premium_payments'
     )
+    parser.add_argument(
+        '--custom_path',
+        help='boolean if custom path'
+             'for db and table are precised',
+        required=False,
+        default=False
+    )
+    parser.add_argument(
+        '--output_name_db',
+        help='Name of database transformed',
+        required=False,
+        default='db_transformed'
+    )
     return parser
 
 

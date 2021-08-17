@@ -18,9 +18,10 @@ class PerformETL:
     Class for ETL pipeline
     """
 
-    def __init__(self, path_db, table_name):
+    def __init__(self, path_db, table_name, output_name_db):
         self.path_db = path_db
         self.table_name = table_name
+        self.output_name_db = output_name_db
 
     def perform_etl(self):
         """
@@ -36,7 +37,7 @@ class PerformETL:
             df_transformed = self.transform(dataframe)
             logging.info('SUCCESS - Data transformation has been performed')
             del dataframe
-            self.load(df_transformed)
+            self.load(df_transformed, self.output_name_db)
             logging.info('SUCCESS - Data load has been performed')
         except ValueError as err:
             logging.info(f'ERROR - ETL pipeline has failed : {err}')
@@ -77,14 +78,15 @@ class PerformETL:
             logging.info(f'ERROR - during the transform step : {err}')
 
     @staticmethod
-    def load(data: pd.DataFrame):
+    def load(data: pd.DataFrame, output_name_db: str):
         """
         Get pandas dataframe transformed and store result into sqlite db
         :param data: a pandas dataframe
+        :param output_name_db: name of db transformed - default is db_transformed
         :return: a sqlite database
         """
         try:
-            full_path = os.path.join(CURRENT_DIR, 'db/output/db_test_container.sqlite3')
+            full_path = os.path.join(f'{CURRENT_DIR}, db/output/{output_name_db}.sqlite3')
             output_db = DB(full_path)
             data.to_sql('premium_payments_transformed', output_db.connexion,
                         if_exists='replace', index=False)
