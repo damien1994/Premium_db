@@ -1,15 +1,15 @@
 """
-Main file where the etl is performed
+Main file where the etl_premium_clients is performed
 author: Damien Michelle
 date: 13/08/2021
 """
 import os
 import sys
 
-from etl.utils import parse_args
-from etl.base_logger import logging
-from etl.config import CURRENT_DIR, DB_DIR
-from etl.PerformETL import PerformETL
+from etl_premium_clients.utils import parse_args
+from etl_premium_clients.base_logger import logging
+from etl_premium_clients.config import CURRENT_DIR, DB_DIR
+from etl_premium_clients.PerformETL import PerformETL
 
 
 def main(input_db, input_table, custom_path, output_name_db):

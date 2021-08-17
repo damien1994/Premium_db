@@ -16,7 +16,7 @@ install: build
 	python setup.py install
 
 run: build
-	python -m etl.main
+	python -m etl_premium_clients.main
 	#--input_db $(INPUT_DB) \
 	#--input_table $(INPUT_TABLE)
 

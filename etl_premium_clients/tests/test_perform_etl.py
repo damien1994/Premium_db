@@ -1,12 +1,12 @@
 """
-Test file pour performing etl
+Test file pour performing etl_premium_clients
 author: Damien Michelle
 date: 13/08/2021
 """
 import pytest
 import pandas as pd
 
-from etl.PerformETL import PerformETL
+from etl_premium_clients.PerformETL import PerformETL
 # TO DO : test extract and load steps
 
 

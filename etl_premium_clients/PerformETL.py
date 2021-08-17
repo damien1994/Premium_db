@@ -8,9 +8,9 @@ import sqlite3
 import numpy as np
 import pandas as pd
 
-from etl.base_logger import logging
-from etl.config import DATES_COLS, CURRENT_DIR
-from etl.models import DB
+from etl_premium_clients.base_logger import logging
+from etl_premium_clients.config import DATES_COLS, CURRENT_DIR
+from etl_premium_clients.models import DB
 
 
 class PerformETL:
@@ -86,7 +86,7 @@ class PerformETL:
         :return: a sqlite database
         """
         try:
-            full_path = os.path.join(f'{CURRENT_DIR}, db/output/{output_name_db}.sqlite3')
+            full_path = os.path.join(CURRENT_DIR, 'db/output/', output_name_db)
             output_db = DB(full_path)
             data.to_sql('premium_payments_transformed', output_db.connexion,
                         if_exists='replace', index=False)

@@ -6,9 +6,9 @@ services:
       context: . #takes dockerfile
     entrypoint: make
     command:
-     - run
+      - run
     volumes:
-      - ./data:/app/etl/db/output
+      - ./data:/app/etl_premium_clients/db/output
 
   metabase:
     image: metabase/metabase:latest

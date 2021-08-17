@@ -1,1 +1,3 @@
 include requirements.txt
+include etl_premium_clients/logs/*
+include etl_premium_clients/db/*

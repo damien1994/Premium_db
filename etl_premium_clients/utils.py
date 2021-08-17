@@ -35,7 +35,7 @@ def create_parser():
         '--output_name_db',
         help='Name of database transformed',
         required=False,
-        default='db_transformed'
+        default='db_transformed.sqlite3'
     )
     return parser
 
