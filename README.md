@@ -31,7 +31,7 @@ docker build . -t etl_process -f Dockerfile
 docker run -v $(PWD)/data:/app/etl_premium_clients/db/output etl_process
 
 # to run metabase and see some analytics KPI
-docker compose -up
+docker-compose -up
 http://localhost:3000/
 ```
 
