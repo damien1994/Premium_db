@@ -1,15 +1,6 @@
 version: "3.1"
 
 services:
-  etl:
-    build:
-      context: . #takes dockerfile
-    entrypoint: make
-    command:
-      - run
-    volumes:
-      - ./data:/app/etl_premium_clients/db/output
-
   metabase:
     image: metabase/metabase:latest
     volumes:

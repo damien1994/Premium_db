@@ -44,9 +44,9 @@ def test_transform(input_data, output_data):
     """
     fake_path_db = 'fake_db.db'
     fake_table_name = 'fake_table_name'
-    etl = PerformETL(fake_path_db, fake_table_name)
+    fake_output_db_name = 'fake_output_db_name'
+    etl = PerformETL(fake_path_db, fake_table_name, fake_output_db_name)
     df_result = etl.transform(input_data)
     print(df_result)
     print(output_data)
     assert df_result.equals(output_data)
-    # assert_frame_equal(df_result, output_data)
